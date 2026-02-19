@@ -1,17 +1,17 @@
 # API Films – PHP
 
-Projet de création d’une API REST en PHP permettant de récupérer des films depuis l’API The Movie Database (TMDB) et de renvoyer les données au format JSON.
+API REST simple en PHP permettant de récupérer des films depuis l’API The Movie Database (TMDB) et de renvoyer les données au format JSON.
 
 ---
 
-## Technologies
-- PHP 8
-- API TMDB
-- JSON
+## Installation
 
----
+### Prérequis
+- PHP installé sur la machine
+- Une clé API TMDB
 
-## Lancer le projet
+### Lancer le serveur
+Depuis le dossier du projet :
 
 ```bash
 php -S localhost:8000
