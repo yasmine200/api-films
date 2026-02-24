@@ -11,7 +11,7 @@ $method = $_SERVER['REQUEST_METHOD'];
  * GET /movies
  * Exemple : /movies?type=popular
  */
-if ($path === '/movies' && $method === 'GET') {
+if (str_contains($path, 'movies') && $method === 'GET') {
     $type = $_GET['type'] ?? 'popular';
     MovieController::list($type);
     exit;
@@ -19,9 +19,8 @@ if ($path === '/movies' && $method === 'GET') {
 
 /**
  * POST /favorites
- * Body JSON requis
  */
-if ($path === '/favorites' && $method === 'POST') {
+if (str_contains($path, 'favorites') && $method === 'POST') {
 
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
@@ -34,13 +33,11 @@ if ($path === '/favorites' && $method === 'POST') {
 
     $favoritesFile = __DIR__ . '/favorites.json';
 
-    // Crée le fichier s'il n'existe pas
     if (!file_exists($favoritesFile)) {
         file_put_contents($favoritesFile, json_encode([]));
     }
 
     $favorites = json_decode(file_get_contents($favoritesFile), true);
-
     if (!is_array($favorites)) {
         $favorites = [];
     }
