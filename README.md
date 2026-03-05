@@ -1,10 +1,6 @@
 # 🎬 API Films – PHP
 
-API REST simple développée en PHP permettant de :
-
-- récupérer des films depuis l’API TMDB
-- exposer des routes REST (GET, POST)
-- gérer une liste de favoris stockée en JSON
+API REST simple développée en PHP permettant de récupérer des films depuis l’API TMDB et de gérer une liste de favoris.
 
 ---
 
@@ -24,15 +20,11 @@ Créer le fichier `config/config.php` :
 define('TMDB_API_KEY', 'VOTRE_CLE_API');
 define('TMDB_BASE_URL', 'https://api.themoviedb.org/3');
 
-
-⸻
-
 Lancer le serveur
 
 Depuis le dossier du projet :
 
 php -S localhost:8000
-
 
 ⸻
 
@@ -43,15 +35,15 @@ GET /movies
 Récupère les films depuis TMDB.
 
 Exemple :
-
 http://localhost:8000/movies?type=popular
 
 ⸻
 
 GET /favorites
 
-Retourne la liste des films favoris stockés dans favorites.json.
+Retourne la liste des favoris.
 
+Exemple :
 http://localhost:8000/favorites
 
 ⸻
@@ -59,6 +51,9 @@ http://localhost:8000/favorites
 POST /favorites
 
 Ajoute un film aux favoris.
+
+URL :
+http://localhost:8000/favorites
 
 Body JSON exemple :
 
@@ -69,21 +64,14 @@ Body JSON exemple :
 
 ⸻
 
-Structure du projet
+Tests via Postman
+	1.	Ouvrir Postman
+	2.	Créer une requête GET vers :
+http://localhost:8000/movies?type=popular
+	3.	Créer une requête POST vers :
+http://localhost:8000/favorites
+Body → raw → JSON
 
-api-films/
-	•	index.php
-	•	config/
-	•	controllers/
-	•	services/
-	•	favorites.json
-	•	front.html
-
-⸻
-
-Front
-
-Un fichier front.html permet d’afficher les films populaires et d’ajouter des favoris via l’API.
+L’API renvoie toujours des réponses au format JSON avec les codes HTTP appropriés.
 
 ---
-
