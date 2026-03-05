@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Netflix - Yasmine</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #141414;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        h1 {
+            padding: 20px;
+        }
+
+        .movies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .movie {
+            width: 180px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .movie:hover {
+            transform: scale(1.05);
+        }
+
+        .movie img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .btn {
+            background-color: red;
+            border: none;
+            padding: 8px;
+            color: white;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🎬 Films populaires</h1>
+
+<div class="movies" id="movies"></div>
+
+<script>
+
+fetch("http://localhost:8000/movies?type=popular")
+    .then(response => response.json())
+    .then(data => {
+
+        const container = document.getElementById("movies");
+
+        data.results.forEach(movie => {
+
+            const div = document.createElement("div");
+            div.classList.add("movie");
+
+            div.innerHTML = `
+                <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}">
+                <button class="btn" onclick='addFavorite(${JSON.stringify(movie)})'>
+                    ❤️ Favori
+                </button>
+            `;
+
+            container.appendChild(div);
+        });
+
+    });
+
+function addFavorite(movie) {
+
+    fetch("http://localhost:8000/favorites", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(movie)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Ajouté aux favoris !");
+        console.log(data);
+    });
+
+}
+
+</script>
+
+</body>
+</html>

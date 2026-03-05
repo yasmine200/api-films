@@ -7,20 +7,36 @@ require_once __DIR__ . '/controllers/MovieController.php';
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $method = $_SERVER['REQUEST_METHOD'];
 
+$favoritesFile = __DIR__ . '/favorites.json';
+
 /**
  * GET /movies
- * Exemple : /movies?type=popular
  */
-if (str_contains($path, 'movies') && $method === 'GET') {
+if ($path === '/movies' && $method === 'GET') {
     $type = $_GET['type'] ?? 'popular';
     MovieController::list($type);
     exit;
 }
 
 /**
+ * GET /favorites
+ */
+if ($path === '/favorites' && $method === 'GET') {
+
+    if (!file_exists($favoritesFile)) {
+        file_put_contents($favoritesFile, json_encode([]));
+    }
+
+    $favorites = json_decode(file_get_contents($favoritesFile), true);
+
+    echo json_encode($favorites, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/**
  * POST /favorites
  */
-if (str_contains($path, 'favorites') && $method === 'POST') {
+if ($path === '/favorites' && $method === 'POST') {
 
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
@@ -31,13 +47,12 @@ if (str_contains($path, 'favorites') && $method === 'POST') {
         exit;
     }
 
-    $favoritesFile = __DIR__ . '/favorites.json';
-
     if (!file_exists($favoritesFile)) {
         file_put_contents($favoritesFile, json_encode([]));
     }
 
     $favorites = json_decode(file_get_contents($favoritesFile), true);
+
     if (!is_array($favorites)) {
         $favorites = [];
     }
